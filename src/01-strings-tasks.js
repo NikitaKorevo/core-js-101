@@ -198,8 +198,64 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let result = '';
+
+  for (let i = 0; i < height; i += 1) {
+    for (let j = 0; j < width; j += 1) {
+      let condition = '';
+
+      if (i === 0 && j === 0) {
+        condition = 'leftTop';
+      } else if (i === 0 && j === width - 1) {
+        condition = 'rightTop';
+      } else if (i === height - 1 && j === 0) {
+        condition = 'leftBottom';
+      } else if (i === height - 1 && j === width - 1) {
+        condition = 'rightBottom';
+      } else if (i === 0 || i === height - 1) {
+        condition = 'horizontalBar';
+      } else if (j === 0 || j === width - 1) {
+        condition = 'verticalBar';
+      } else {
+        condition = 'emptiness';
+      }
+
+      switch (condition) {
+        case 'leftTop':
+          result += '┌';
+          break;
+        case 'rightTop':
+          result += '┐';
+          break;
+        case 'leftBottom':
+          result += '└';
+          break;
+
+        case 'rightBottom':
+          result += '┘';
+          break;
+
+        case 'horizontalBar':
+          result += '─';
+          break;
+
+        case 'verticalBar':
+          result += '│';
+          break;
+
+        case 'emptiness':
+          result += ' ';
+          break;
+
+        default:
+          break;
+      }
+
+      if (j === width - 1) result += '\n';
+    }
+  }
+  return result;
 }
 
 /**
@@ -218,8 +274,28 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  let result = '';
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+
+  str.split('').forEach((symbol) => {
+    const copySymbol = symbol.toLowerCase();
+
+    if (!alphabet.includes(copySymbol)) {
+      result += copySymbol;
+      return;
+    }
+
+    let index = alphabet.indexOf(copySymbol) + 13;
+    if (index >= alphabet.length) index -= alphabet.length;
+
+    if (copySymbol !== symbol) {
+      result += alphabet[index].toUpperCase();
+    } else {
+      result += alphabet[index];
+    }
+  });
+  return result;
 }
 
 /**
@@ -235,8 +311,8 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return Object.prototype.toString.call(value) === '[object String]';
 }
 
 /**
