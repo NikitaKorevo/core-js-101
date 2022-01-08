@@ -179,8 +179,24 @@ function getParallelepipedDiagonal(a, b, c) {
  *   1678, 2  => 1700
  *   1678, 3  => 2000
  */
-function roundToPowerOfTen(/* num, pow */) {
-  throw new Error('Not implemented');
+function roundToPowerOfTen(num, pow) {
+  if (pow === 0) return num;
+  const numString = String(num).split('');
+  let flag;
+  let result;
+
+  for (let i = 0; i < pow; i += 1) {
+    if (i === pow - 1) flag = numString[numString.length - 1];
+    numString.pop();
+  }
+
+  if (flag > 4) {
+    result = String(Number(numString.join('')) + 1);
+    result = result.padEnd(result.length + pow, '0');
+  } else {
+    result = numString.join('').padEnd(numString.length + pow, '0');
+  }
+  return Number(result);
 }
 
 /**
@@ -222,8 +238,16 @@ function isPrime(n) {
  *   toNumber(42, 0) => 42
  *   toNumber(new Number(42), 0) => 42
  */
-function toNumber(/* value, def */) {
-  throw new Error('Not implemented');
+function toNumber(value, def) {
+  if (typeof value === 'string') {
+    if (Number(value)) return +value;
+    return def;
+  }
+  if (typeof value === 'number') return +value + def;
+  if (Object.prototype.toString.call(value) === '[object Number]') {
+    return +value + def;
+  }
+  return def;
 }
 
 module.exports = {
