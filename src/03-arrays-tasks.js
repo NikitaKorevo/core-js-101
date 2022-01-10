@@ -1,3 +1,6 @@
+/* eslint-disable function-paren-newline */
+/* eslint-disable comma-dangle */
+/* eslint-disable implicit-arrow-linebreak */
 /* ********************************************************************************************
  *                                                                                            *
  * Please read the following tutorial before implementing tasks:                               *
@@ -147,8 +150,8 @@ function getStringsLength(arr) {
  *    [ 1, 3, 4, 5 ], 2, 1  => [ 1, 2, 3, 4, 5 ]
  *    [ 1, 'b', 'c'], 0, 'x'  => [ 'x', 1, 'b', 'c' ]
  */
-function insertItem(/* arr, item, index */) {
-  throw new Error('Not implemented');
+function insertItem(arr, item, index) {
+  return arr.splice(index, 0, item);
 }
 
 /**
@@ -199,8 +202,8 @@ function getTail(arr, n) {
  *    +'20,21,22,23,24\n'
  *    +'30,31,32,33,34'
  */
-function toCsvText(/* arr */) {
-  throw new Error('Not implemented');
+function toCsvText(arr) {
+  return arr.map((subArray) => subArray.join()).join('\n');
 }
 
 /**
@@ -271,8 +274,8 @@ function getSecondItems(arr) {
  *  [ 'a', 'b', 'c', null ] => [ 'a', 'b','b', 'c','c','c',  null,null,null,null ]
  *  [ 1,2,3,4,5 ] => [ 1, 2,2, 3,3,3, 4,4,4,4, 5,5,5,5,5 ]
  */
-function propagateItemsByPositionIndex(/* arr */) {
-  throw new Error('Not implemented');
+function propagateItemsByPositionIndex(arr) {
+  return arr.map((el, index) => new Array(index + 1).fill(el)).flat();
 }
 
 /**
@@ -325,8 +328,28 @@ function getPositivesCount(arr) {
  *   [ 'nine','eight','nine','eight'] => [ 'eight','eight','nine','nine']
  *   [ 'one','one','one','zero' ]     => [ 'zero','one','one','one' ]
  */
-function sortDigitNamesByNumericOrder(/* arr */) {
-  throw new Error('Not implemented');
+function sortDigitNamesByNumericOrder(arr) {
+  const sortNumber = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+  ];
+  const result = [];
+  sortNumber.map((number) => {
+    arr.map((el) => {
+      if (number === el) result.push(number);
+      return false;
+    });
+    return false;
+  });
+  return result;
 }
 
 /**
@@ -422,8 +445,13 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr
+    .sort((a, b) => (a.country > b.country ? 1 : -1))
+    .sort((a, b) => {
+      if (a.country !== b.country) return 1;
+      return a.city > b.city ? 1 : -1;
+    });
 }
 
 /**
@@ -444,8 +472,22 @@ function sortCitiesArray(/* arr */) {
  *           [0,0,0,1,0],
  *           [0,0,0,0,1]]
  */
-function getIdentityMatrix(/* n */) {
-  throw new Error('Not implemented');
+function getIdentityMatrix(n) {
+  if (n === 1) return [[1]];
+  if (n === 2) {
+    return [
+      [1, 0],
+      [0, 1],
+    ];
+  }
+  let matrix = new Array(n).fill(new Array(n).fill(0));
+  matrix = matrix.map((row, rowIndex) =>
+    row.map((column, columnIndex) => {
+      if (rowIndex === columnIndex) return 1;
+      return 0;
+    })
+  );
+  return matrix;
 }
 
 /**
@@ -515,8 +557,18 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const map = new Map();
+
+  array.map((subArray) => {
+    if (map.has(keySelector(subArray))) {
+      map.get(keySelector(subArray)).push(valueSelector(subArray));
+    } else {
+      map.set(keySelector(subArray), [valueSelector(subArray)]);
+    }
+    return null;
+  });
+  return map;
 }
 
 /**
@@ -532,8 +584,8 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], x=>x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+function selectMany(arr, childrenSelector) {
+  return arr.map((el) => childrenSelector(el)).flat();
 }
 
 /**
@@ -548,8 +600,8 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+function getElementByIndexes(arr, indexes) {
+  return indexes.reduce((prev, curr) => prev[curr], arr);
 }
 
 /**
@@ -570,8 +622,15 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+function swapHeadAndTail(arr) {
+  if (arr.length % 2 === 0) {
+    return [].concat(arr.slice(arr.length / 2), arr.slice(0, arr.length / 2));
+  }
+  return [].concat(
+    arr.slice((arr.length + 1) / 2),
+    arr[Math.floor(arr.length / 2)],
+    arr.slice(0, Math.floor(arr.length / 2))
+  );
 }
 
 module.exports = {
