@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* *************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *
@@ -125,6 +126,32 @@ function isTriangle(a, b, c) {
  */
 function doRectanglesOverlap(/* rect1, rect2 */) {
   throw new Error('Not implemented');
+  /*   const widthStartRect1 = rect1.left;
+  const widthEndRect1 = widthStartRect1 + rect1.width;
+  const heightStartRect1 = rect1.top;
+  const heightEndRect1 = heightStartRect1 + rect1.height;
+
+  const widthStartRect2 = rect2.left;
+  const widthEndRect2 = widthStartRect2 + rect2.width;
+  const heightStartRect2 = rect2.top;
+  const heightEndRect2 = heightStartRect2 + rect2.height;
+
+  function overlapWidth() {
+    return (
+      (widthStartRect1 <= widthStartRect2 &&
+        widthEndRect1 >= widthStartRect2) ||
+      (widthStartRect1 <= widthEndRect2 && widthEndRect1 >= widthEndRect2)
+    );
+  }
+
+  function overlapHeight() {
+    return (
+      (heightStartRect1 <= heightStartRect2 &&
+        heightEndRect1 >= heightStartRect2) ||
+      (heightStartRect1 <= heightEndRect2 && heightEndRect1 >= heightEndRect2)
+    );
+  }
+  return overlapWidth() || overlapHeight(); */
 }
 
 /**
@@ -275,8 +302,20 @@ function reverseInteger(num) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let i = 0;
+  const modifiedCCN = String(ccn).split('');
+  if (modifiedCCN.length % 2 !== 0) i += 1;
+
+  for (; i < modifiedCCN.length; i += 2) {
+    const num = +modifiedCCN[i] * 2;
+    if (num > 9) {
+      modifiedCCN[i] = num - 9;
+    } else {
+      modifiedCCN[i] = num;
+    }
+  }
+  return modifiedCCN.reduce((prev, curr) => prev + +curr, 0) % 10 === 0;
 }
 
 /**
@@ -329,8 +368,56 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  let result = true;
+  const arrBrackets = [];
+
+  str.split('').forEach((bracket) => {
+    switch (bracket) {
+      case '[':
+      case '(':
+      case '{':
+      case '<':
+        arrBrackets.push(bracket);
+        break;
+      case ']':
+        if (arrBrackets[arrBrackets.length - 1] === '[') {
+          arrBrackets.pop();
+        } else {
+          result = false;
+        }
+        break;
+
+      case ')':
+        if (arrBrackets[arrBrackets.length - 1] === '(') {
+          arrBrackets.pop();
+        } else {
+          result = false;
+        }
+        break;
+
+      case '}':
+        if (arrBrackets[arrBrackets.length - 1] === '{') {
+          arrBrackets.pop();
+        } else {
+          result = false;
+        }
+        break;
+
+      case '>':
+        if (arrBrackets[arrBrackets.length - 1] === '<') {
+          arrBrackets.pop();
+        } else {
+          result = false;
+        }
+        break;
+
+      default:
+        break;
+    }
+  });
+  if (arrBrackets.length !== 0) result = false;
+  return result;
 }
 
 /**
@@ -353,8 +440,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 /**
@@ -371,6 +458,22 @@ function toNaryString(/* num, n */) {
  */
 function getCommonDirectoryPath(/* pathes */) {
   throw new Error('Not implemented');
+  /*   let comparedPath = pathes[0];
+
+  for (let i = 0; comparedPath.length >= 1; i += 1) {
+    const indexSlash = comparedPath.lastIndexOf('/');
+    if (indexSlash === -1) return '';
+    comparedPath = comparedPath.slice(0, indexSlash + 1);
+    const isCommonDirectoryPath = pathes.every((path) => {
+      const flag = path.includes(comparedPath);
+      return flag;
+    });
+
+    if (isCommonDirectoryPath) return comparedPath;
+    comparedPath = comparedPath.slice(0, comparedPath.length - 1);
+    if (!isCommonDirectoryPath && comparedPath === '') return '';
+  }
+  return null; */
 }
 
 /**
