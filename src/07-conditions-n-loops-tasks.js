@@ -1,4 +1,3 @@
-/* eslint-disable no-loop-func */
 /* *************************************************************************************************
  *                                                                                                *
  * Please read the following tutorial before implementing tasks:                                   *

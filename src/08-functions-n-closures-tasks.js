@@ -23,7 +23,7 @@
  *
  */
 function getComposition(f, g) {
-  return function (x) {
+  return function func(x) {
     return f(g(x));
   };
 }
@@ -46,7 +46,7 @@ function getComposition(f, g) {
  */
 function getPowerFunction(exponent) {
   const degree = exponent;
-  return function (num) {
+  return function func(num) {
     return num ** degree;
   };
 }
